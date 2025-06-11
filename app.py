@@ -3,26 +3,32 @@ import requests
 
 app = Flask(__name__)
 
+# Use API Gateway 
+API_GATEWAY_URL = 'https://shopsphere-gateway-46h5n97t.uc.gateway.dev'
+
 @app.route('/')
 def home():
-    response = requests.get('https://product-backend-327554758505.us-central1.run.app/products')
+    response = requests.get(f'{API_GATEWAY_URL}/products')
     products = response.json()
-    return render_template('index.html', products=products)  
+    return render_template('index.html', products=products)
 
 @app.route('/decrement_stock', methods=['POST'])
 def decrement_stock():
     data = request.get_json()
     product_id = data['product_id']
     decrement = data['decrement']
-    requests.post('https://inventory-backend-327554758505.us-central1.run.app/decrement_stock', json={'product_id': product_id, 'decrement': decrement})
+    requests.post(f'{API_GATEWAY_URL}/inventory/decrement', json={
+        'product_id': product_id,
+        'decrement': decrement
+    })
     return jsonify({'success': True})
 
 @app.route('/order', methods=['POST'])
 def order():
     data = request.get_json()
     product_id = data['product_id']
-    # Send order value to orders-backend (root endpoint)
-    requests.post('https://order-backend-327554758505.us-central1.run.app', json={
+    # Send order value to orders-backend (through API Gateway)
+    requests.post(f'{API_GATEWAY_URL}/orders', json={
         'product_id': product_id,
         'value': 1
     })
