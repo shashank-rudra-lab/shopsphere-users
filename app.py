@@ -23,7 +23,7 @@ def decrement_stock():
     })
     return jsonify({'success': True})
 
-@app.route('/order', methods=['POST'])
+@app.route('/orders', methods=['POST'])
 def order():
     data = request.get_json()
     product_id = data['product_id']

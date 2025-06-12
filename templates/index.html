@@ -76,7 +76,7 @@
             })
             .then(() => {
                 // Send order message to orders-backend with name and price
-                fetch('/order', {
+                fetch('/orders', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
