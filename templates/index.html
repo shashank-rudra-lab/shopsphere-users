@@ -76,13 +76,21 @@
             })
             .then(() => {
                 // Send order message to orders-backend with name and price
-                fetch('/orders', {
+                fetch('https://shopsphere-gateway-46h5n97t.uc.gateway.dev', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ product_id: productId, name: name, price: price })
-                });
+                    body: JSON.stringify({
+                        product_id: productId,
+                        name: name,
+                        price: price
+                    })
+                })
+                .then(response => response.json())
+                .then(data => console.log('Order result:', data))
+                .catch(error => console.error('Error placing order:', error));
+
                 buttonElem.textContent = 'Your order is being shipped';
                 buttonElem.disabled = true;
             });
