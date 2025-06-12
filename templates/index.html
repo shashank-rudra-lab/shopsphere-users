@@ -62,6 +62,11 @@
     </style>
     <script>
         function decrementStock(productId, buttonElem) {
+            // Get product name and price from DOM
+            const productDiv = buttonElem.closest('.product-details');
+            const name = productDiv.querySelector('h2').textContent;
+            const price = productDiv.querySelector('div').textContent.replace('Price: ', '').trim();
+
             fetch('/decrement_stock', {
                 method: 'POST',
                 headers: {
@@ -70,13 +75,13 @@
                 body: JSON.stringify({ product_id: productId, decrement: 1 })
             })
             .then(() => {
-                // Send order message to orders-backend
+                // Send order message to orders-backend with name and price
                 fetch('/order', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ product_id: productId })
+                    body: JSON.stringify({ product_id: productId, name: name, price: price })
                 });
                 buttonElem.textContent = 'Your order is being shipped';
                 buttonElem.disabled = true;

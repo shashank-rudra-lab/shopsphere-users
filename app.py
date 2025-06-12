@@ -27,9 +27,13 @@ def decrement_stock():
 def order():
     data = request.get_json()
     product_id = data['product_id']
-    # Send order value to orders-backend (through API Gateway)
+    name = data.get('name')
+    price = data.get('price')
+    # Send order value, name, and price to orders-backend (root endpoint)
     requests.post(f'{API_GATEWAY_URL}/orders', json={
         'product_id': product_id,
+        'name': name,
+        'price': price,
         'value': 1
     })
     return jsonify({'success': True})
