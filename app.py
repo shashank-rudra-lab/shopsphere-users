@@ -30,7 +30,7 @@ def order():
     name = data.get('name')
     price = data.get('price')
     # Send order value, name, and price to orders-backend (root endpoint)
-    requests.post('https://order-backend-327554758505.us-central1.run.app/orders', json={
+    requests.post(f'{API_GATEWAY_URL}/orders', json={
         'product_id': product_id,
         'name': name,
         'price': price,
