@@ -13,19 +13,17 @@ steps:
       - 'push'
       - 'us-central1-docker.pkg.dev/silent-octagon-460701-a0/users-frontend/users-frontend:$BUILD_ID'
 
-  # Step 3: Deploy to Cloud Run
+    # Step 4: Deploy to App Engine
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'bash'
     args:
       - '-c'
       - |
         gcloud config set project silent-octagon-460701-a0
-        gcloud run deploy users-frontend \
-          --image us-central1-docker.pkg.dev/silent-octagon-460701-a0/users-frontend/users-frontend:$BUILD_ID \
-          --region us-central1 \
-          --platform managed \
+        gcloud app deploy app.yaml \
+          --quiet \
+          --promote \
           --service-account shopshere-product-service@silent-octagon-460701-a0.iam.gserviceaccount.com \
-          --allow-unauthenticated
 
 options:
   logging: CLOUD_LOGGING_ONLY
