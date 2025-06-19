@@ -27,24 +27,11 @@ steps:
           --service-account shopshere-product-service@silent-octagon-460701-a0.iam.gserviceaccount.com \
           --allow-unauthenticated
 
-  # Step 4: Initialize Cloud SQL database
+  # Step 4: Run Cloud SQL setup script
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'bash'
     args:
-      - '-c'
-      - |
-        DB_INSTANCE=dev-mysql-instance
-        DB_NAME=dev_db
-        SQL_FILE=db/dev/init.sql
-        echo "Waiting for Cloud SQL instance to be ready..."
-        for i in {1..30}; do
-          if gcloud sql instances describe $DB_INSTANCE --format='get(state)' | grep -q RUNNABLE; then
-            break
-          fi
-          sleep 10
-        done
-        echo "Cloud SQL instance is ready. Running SQL script..."
-        gcloud sql import sql $DB_INSTANCE $SQL_FILE --database=$DB_NAME --quiet
+      - './scripts/init-cloudsql.sh'
 
 options:
   logging: CLOUD_LOGGING_ONLY
