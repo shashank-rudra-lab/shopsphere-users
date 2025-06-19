@@ -37,9 +37,7 @@ steps:
         DB_NAME=dev_db
         DB_USER=devuser
         DB_PASS=devpassword
-        REGION=us-central1
         SQL_FILE=db/dev/init.sql
-        CONNECTION_NAME=$(gcloud sql instances describe $INSTANCE_NAME --format='value(connectionName)')
         echo "Waiting for Cloud SQL instance to be ready..."
         for i in {1..30}; do
           if gcloud sql instances describe $INSTANCE_NAME --format='get(state)' | grep -q RUNNABLE; then
