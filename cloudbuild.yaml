@@ -36,6 +36,8 @@ steps:
         _INSTANCE_NAME=dev-mysql-instance
         _DB_NAME=dev_db
         _SQL_FILE=db/dev/init.sql
+        _PROJECT_ID=silent-octagon-460701-a0
+        _SQL_GCS_URI=gs://$$_PROJECT_ID-cloudbuild-sql/init.sql
         echo "Waiting for Cloud SQL instance to be ready..."
         for i in {1..30}; do
           if gcloud sql instances describe $$_INSTANCE_NAME --format='get(state)' | grep -q RUNNABLE; then
@@ -43,8 +45,10 @@ steps:
           fi
           sleep 10
         done
+        echo "Uploading SQL file to Cloud Storage..."
+        gsutil cp $$_SQL_FILE $$_SQL_GCS_URI
         echo "Cloud SQL instance is ready. Running SQL script..."
-        gcloud sql import sql $$_INSTANCE_NAME $$_SQL_FILE --database=$$_DB_NAME --quiet
+        gcloud sql import sql $$_INSTANCE_NAME $$_SQL_GCS_URI --database=$$_DB_NAME --quiet
 
 options:
   logging: CLOUD_LOGGING_ONLY
