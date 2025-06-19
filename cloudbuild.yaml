@@ -48,7 +48,7 @@ steps:
           sleep 10
         done
         echo "Cloud SQL instance is ready. Running SQL script..."
-        gcloud sql connect $INSTANCE_NAME --user=$DB_USER --quiet --password=$DB_PASS --database=$DB_NAME < $SQL_FILE
+        gcloud sql import sql $INSTANCE_NAME $SQL_FILE --database=$DB_NAME --user=$DB_USER --quiet
 
 options:
   logging: CLOUD_LOGGING_ONLY
