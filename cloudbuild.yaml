@@ -37,7 +37,7 @@ steps:
         DB_NAME=dev_db
         DB_USER=devuser
         DB_PASS=devpassword
-        SQL_FILE=db/dev/init.sql
+        _SQL_FILE=db/dev/init.sql
         echo "Waiting for Cloud SQL instance to be ready..."
         for i in {1..30}; do
           if gcloud sql instances describe $_INSTANCE_NAME --format='get(state)' | grep -q RUNNABLE; then
@@ -46,7 +46,7 @@ steps:
           sleep 10
         done
         echo "Cloud SQL instance is ready. Running SQL script..."
-        gcloud sql import sql $_INSTANCE_NAME $SQL_FILE --database=$DB_NAME --user=$DB_USER --quiet
+        gcloud sql import sql $_INSTANCE_NAME $_SQL_FILE --database=$DB_NAME --user=$DB_USER --quiet
 
 options:
   logging: CLOUD_LOGGING_ONLY
