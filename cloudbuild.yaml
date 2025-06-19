@@ -38,6 +38,8 @@ steps:
         _SQL_FILE=db/dev/init.sql
         _PROJECT_ID=silent-octagon-460701-a0
         _SQL_GCS_URI=gs://$$_PROJECT_ID-cloudbuild-sql/init.sql
+        gcloud config set project $$_PROJECT_ID
+        gsutil ls $$_SQL_BUCKET || gsutil mb -p $$_PROJECT_ID $$_SQL_BUCKET
         echo "Waiting for Cloud SQL instance to be ready..."
         for i in {1..30}; do
           if gcloud sql instances describe $$_INSTANCE_NAME --format='get(state)' | grep -q RUNNABLE; then
