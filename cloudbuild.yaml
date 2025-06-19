@@ -33,18 +33,20 @@ steps:
     args:
       - '-c'
       - |
-        INSTANCE_NAME=dev-mysql-instance
+        DB_INSTANCE=dev-mysql-instance
         DB_NAME=dev_db
         SQL_FILE=db/dev/init.sql
         echo "Waiting for Cloud SQL instance to be ready..."
         for i in {1..30}; do
-          if gcloud sql instances describe $INSTANCE_NAME --format='get(state)' | grep -q RUNNABLE; then
+          if gcloud sql instances describe $DB_INSTANCE --format='get(state)' | grep -q RUNNABLE; then
             break
           fi
           sleep 10
         done
         echo "Cloud SQL instance is ready. Running SQL script..."
-        gcloud sql import sql $INSTANCE_NAME $SQL_FILE --database=$DB_NAME --quiet
+        gcloud sql import sql $DB_INSTANCE $SQL_FILE --database=$DB_NAME --quiet
 
 options:
   logging: CLOUD_LOGGING_ONLY
+
+substitutions: {}
