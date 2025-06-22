@@ -27,11 +27,6 @@ steps:
           --service-account shopshere-product-service@silent-octagon-460701-a0.iam.gserviceaccount.com \
           --allow-unauthenticated
 
-  # Step 4: Run Cloud SQL setup script
-  - name: 'gcr.io/cloud-builders/gcloud'
-    entrypoint: 'bash'
-    args:
-      - './scripts/init-cloudsql.sh'
 
 options:
   logging: CLOUD_LOGGING_ONLY
