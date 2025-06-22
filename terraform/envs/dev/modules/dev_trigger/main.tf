@@ -16,6 +16,6 @@ resource "google_cloudbuild_trigger" "dev_trigger" {
 }
 
 output "trigger_id" {
-  value = google_cloudbuild_trigger.users_frontend_trigger.id
+  value = google_cloudbuild_trigger.dev_trigger.id
 }
 

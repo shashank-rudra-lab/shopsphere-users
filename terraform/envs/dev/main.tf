@@ -4,18 +4,18 @@ provider "google" {
 }
 
 # Artifact Registry to store Docker images
-resource "google_artifact_registry_repository" "orderservice" {
+resource "google_artifact_registry_repository" "devdocker" {
   project       = var.project_id
   location      = var.region
-  repository_id = "orderservice"
+  repository_id = "docker-${var.env}"
   format        = "DOCKER"
 }
 
 
 
 # Cloud SQL instance for the orders database
-resource "google_sql_database_instance" "new_db_instance" {
-  name             = "orderservicesql-${var.env}"
+resource "google_sql_database_instance" "db_instance_dev" {
+  name             = "newdatasql-${var.env}"
   region           = var.region
   database_version = "MYSQL_8_0"
 
@@ -27,7 +27,7 @@ resource "google_sql_database_instance" "new_db_instance" {
 
 module "dev_trigger" {
   source           = "./modules/dev_trigger"
-  app_name         = "shop-sphere-users"
+  app_name         = "shop-sphere-users-${var.env}"
   github_owner     = "shashank-rudra-lab"
   github_repo_name = "shopsphere-users"
   cloudbuild_path  = "cloudbuild.yaml"
