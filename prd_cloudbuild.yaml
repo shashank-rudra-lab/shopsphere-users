@@ -20,7 +20,7 @@ steps:
       - '-c'
       - |
         gcloud config set project silent-octagon-460701-a0
-        gcloud run deploy users-frontend \
+        gcloud run deploy users-prd \
           --image us-central1-docker.pkg.dev/silent-octagon-460701-a0/docker-prd/usersprd:$BUILD_ID \
           --region us-central1 \
           --platform managed \
