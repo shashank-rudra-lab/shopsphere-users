@@ -4,14 +4,14 @@ steps:
     args:
       - 'build'
       - '-t'
-      - 'us-central1-docker.pkg.dev/silent-octagon-460701-a0/users-frontend/users-frontend:$BUILD_ID'
+      - 'us-central1-docker.pkg.dev/silent-octagon-460701-a0/docker-stg/usersstg:$BUILD_ID'
       - '.'
 
   # Step 2: Push Docker image
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'push'
-      - 'us-central1-docker.pkg.dev/silent-octagon-460701-a0/users-frontend/users-frontend:$BUILD_ID'
+      - 'us-central1-docker.pkg.dev/silent-octagon-460701-a0/docker-stg/usersstg:$BUILD_ID'
 
   # Step 3: Deploy to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -20,8 +20,8 @@ steps:
       - '-c'
       - |
         gcloud config set project silent-octagon-460701-a0
-        gcloud run deploy users-frontend \
-          --image us-central1-docker.pkg.dev/silent-octagon-460701-a0/users-frontend/users-frontend:$BUILD_ID \
+        gcloud run deploy users-stg \
+          --image us-central1-docker.pkg.dev/silent-octagon-460701-a0/docker-stg/usersstg:$BUILD_ID \
           --region us-central1 \
           --platform managed \
           --service-account shopshere-product-service@silent-octagon-460701-a0.iam.gserviceaccount.com \
