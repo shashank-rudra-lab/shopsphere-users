@@ -1,6 +1,6 @@
 variable "app_name" {
   type        = string
-  default     = "New-Master"
+  default     = "Project4"
   description = "Name of the app (used in the trigger name)"
 }
 
@@ -12,18 +12,18 @@ variable "github_owner" {
 
 variable "github_repo_name" {
   type        = string
-  default     = "shopsphere-users"
+  default     = "project-4"
   description = "GitHub repository name for the app"
 }
 
 variable "cloudbuild_path" {
   type        = string
-  default     = "prd_cloudbuild.yaml"
+  default     = "cloudbuild.yaml"
   description = "Path to the cloudbuild.yaml file in the repo"
 }
 
 variable "branch_name" {
   type        = string
-  default     = "prd"
+  default     = "main"
   description = "Branch name to trigger builds from"
 }

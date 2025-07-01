@@ -1,0 +1,47 @@
+steps:
+  # Step 1: Build Docker image into dev
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'us-central1-docker.pkg.dev/silent-octagon-460701-a0/project4-dev/dev:$BUILD_ID'
+      - '.'
+
+  # Step 2: Push Docker image into dev
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'us-central1-docker.pkg.dev/silent-octagon-460701-a0/project4-dev/dev:$BUILD_ID'
+
+   # Step 3: Build Docker image into stg
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'us-central1-docker.pkg.dev/silent-octagon-460701-a0/project4-stg/stg:$BUILD_ID'
+      - '.'
+
+  # Step 4: Push Docker image into stg 
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'us-central1-docker.pkg.dev/silent-octagon-460701-a0/project4-stg/stg:$BUILD_ID'
+  
+  # Step 5: Build Docker image into prd
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'us-central1-docker.pkg.dev/silent-octagon-460701-a0/project4-prd/prd:$BUILD_ID'
+      - '.'         
+  
+  # Step 6: Push Docker image into prd
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'us-central1-docker.pkg.dev/silent-octagon-460701-a0/project4-prd/prd:$BUILD_ID'  
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+
+substitutions: {}
